@@ -10,6 +10,43 @@ def home(request):
     posts=Post_the_blog.objects.all()
     return render(request,'miniblog/home.html',{'post':posts})
 
+def addpost(request):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            form=forms.PostForm(request.POST)
+            if form.is_valid:
+                form.save()
+                form=forms.PostForm()
+                return HttpResponseRedirect('/dashboard/')
+        else:
+            form=forms.PostForm()
+        return render(request,'miniblog/addpost.html',{'form':form})
+    else:
+        return HttpResponseRedirect('/login/')
+
+def update(request,id):
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            pi=Post_the_blog.objects.get(pk=id)
+            form=forms.PostForm(request.POST,instance=pi)
+            if form.is_valid:
+                form.save()
+                return HttpResponseRedirect('/dashboard/')
+        else:
+            pi=Post_the_blog.objects.get(pk=id)
+            form=forms.PostForm(instance=pi)
+        return render(request,'miniblog/updatepost.html',{'form':form})
+    else:
+        return HttpResponseRedirect('/login/')
+
+def delete_post(request,id):
+    if request.user.is_authenticated:
+        if request.method=='POST':
+            pi=Post_the_blog.objects.get(pk=id)
+            pi.delete()
+        return HttpResponseRedirect('/dashboard/')
+    else:
+        return HttpResponseRedirect('/login/')
 
 def about(request):
     return render(request,'miniblog/about.html')
@@ -19,8 +56,12 @@ def contact(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
+        # if request.method=="POST":
         posts=Post_the_blog.objects.all()
-        return render(request,'miniblog/dashboard.html',{'post':posts})
+        user=request.user
+        full_name=user.get_full_name()
+
+        return render(request,'miniblog/dashboard.html',{'post':posts,'fullname':full_name})
     else:
         return HttpResponseRedirect('/login/')
 

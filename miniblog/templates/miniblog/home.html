@@ -6,10 +6,10 @@
     <h3 class="text-white my-5">Home page</h3>
 
     {% for pst in post %}
-    <div class="jumbotron jumbotron-fluid jumbo-color p-5">
+    <div class="jumbotron jumbotron-fluid jumbo-color p-2 mt-3 mb-2" style="border-radius: 8px;">
         <div class="container text-light">
             <h1 class="display font-weight-bold">{{pst.title}}</h1>
-            <p class="lead mt-5 ml-2">{{pst.desc}}</p>
+            <p class="lead mt-3 ml-2">{{pst.desc}}</p>
         </div>
     </div>
     {% endfor %}
