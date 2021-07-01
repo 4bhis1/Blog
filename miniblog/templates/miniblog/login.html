@@ -1,0 +1,39 @@
+{% extends 'miniblog/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="col-5">
+    <h3 class="text-white my-5">Login page</h3>
+
+    {% if messages %}
+        {% for message in messages %}
+
+        <p {% if message.tags %} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+
+        {% endfor %}
+    {% endif %}
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+        {% for fm in form %}
+
+            <div class="form-group">
+                {{fm.label_tag}} {{fm}} {{fm.errors|striptags}}
+            </div>
+            
+        {% endfor %}
+        <input type="submit" value="Log in" class="btn btn-primary mt-3">
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="alert alert-danger my-3">{{error}}</p>
+            {% endfor %}
+        {% endif %}
+
+    </form>
+    
+</div>
+
+{% endblock content %}

@@ -1,0 +1,12 @@
+body{
+    background-color: rgb(74,74,74);
+    color: white;
+}
+
+.jumbo-color{
+    background-color: rgb(109,109,109);
+}
+
+.ml-2{
+    margin-left: 2rem;
+}
